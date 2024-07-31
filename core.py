@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 tu cola esto da merge conflict
+=======
+
+>>>>>>> testeo
 
 ##################################
 
