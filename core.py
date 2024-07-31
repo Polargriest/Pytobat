@@ -5,7 +5,7 @@ from pytobat import Pytobat
 # Welcome to CORE.PY :)
 # Here you can configure your game. Please, change these options carefully.
 
-gameName = "Apariencias y asi"
+gameName = "TestProject"
 
 ptc = Pytobat(gameName) # Do not erase this line
 
