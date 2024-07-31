@@ -233,7 +233,7 @@ class Console:
 			error += f"[!] All functions must be within events.\n"
 
 		elif self.desc == "function.args.incorrect":
-			error += f"[!] Funtion \'{self.contents[0]}\' needs {self.contents[1]} "
+			error += f"[!] Function \'{self.contents[0]}\' needs {self.contents[1]} "
 			error +=  "argument" if self.contents[1] == 1 else "arguments"
 			error += f" but {self.contents[2]} "
 			error += "was given.\n" if self.contents[2] == 1 else "were given.\n"
