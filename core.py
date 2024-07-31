@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-tu cola esto da merge conflict
-=======
-
->>>>>>> testeo
+from pytobat import Pytobat
 
 ##################################
 
@@ -21,4 +17,4 @@ ptc.header["landscapeMode"] = "true"
 
 ##################################
 
-ptc.build(True) # Acá lo compilas
+ptc.build(False) # Acá lo compilas
