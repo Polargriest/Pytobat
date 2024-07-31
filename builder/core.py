@@ -1,4 +1,4 @@
-from pytobat import Pytobat
+from source.builder import Pytobat
 
 """
 * Welcome to the Pytobat Builder! :)
