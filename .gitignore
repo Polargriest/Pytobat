@@ -1,9 +1,5 @@
 __pycache__
-
-# Ignore 
-Game/**
-!Game/scenes/
-!Game/scenes/Scene/
+Game/
 
 TestProject/
 TestProject.catrobat
