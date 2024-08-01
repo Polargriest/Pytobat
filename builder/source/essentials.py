@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from . import interpreter as ptbint
+from . import interpreter as ptbint, console
 
 def isvalid(path, exception=True):
 		# This function is used to validate a certain path the user provided.
@@ -17,8 +17,11 @@ def isvalid(path, exception=True):
 				return None
 
 class Scene:
+	objects = []
+
 	def __init__(self, path):
 		self.path = path
+		self.name = path.name
 
 	def getCode(self):
 		code =   "\t\t<scene>\n" # The start of a scene
@@ -33,14 +36,31 @@ class Scene:
 		
 		# Then we create all the other objects
 		for obj in objects:
-			code += Object(obj).getCode()
+			newobj = Object(obj)
+			self.objects.append(newobj)
+			code += newobj.getCode()
 
 		# End the scene ------------------------------------------------------------
 		code +=  "\t\t\t</objectList>\n" # The end of the object list
 		code += "\t\t</scene>\n" #The end of an scene
 		return code
 
+	def getLooks(self):
+		looks = []
+		for obj in self.objects:
+			looks += obj.getLooks()
+
+		return looks
+
+	def getAudios(self):
+		audios = []
+		for obj in self.objects:
+			audios += obj.getAudios()
+
 class Object:
+	lookslist = []
+	audioslist = []
+
 	def __init__(self, path):
 		self.path = path
 
@@ -58,6 +78,7 @@ class Object:
 
 			for look in looks.iterdir():
 				# Detected look! Opening <looks>
+				self.lookslist.append(look)
 				code += ( f"\t\t\t\t\t\t<look fileName=\"{look.name}\" name=\"{look.stem}\">\n"
 					"\t\t\t\t\t\t\t<isWebRequest>false</isWebRequest>\n"
 					"\t\t\t\t\t\t\t<valid>true</valid>\n"
@@ -76,6 +97,7 @@ class Object:
 
 			for audio in audios.iterdir():
 				# Detected audio! Opening <sound>
+				self.audioslist.append(audio)
 				code += ( f"\t\t\t\t\t\t<sound fileName=\"{audio.name}\" name=\"{audio.stem}\">\n"
 					"\t\t\t\t\t\t\t<midiFile>false</midiFile>\n"
 					"\t\t\t\t\t\t</sound>\n"
@@ -105,3 +127,9 @@ class Object:
 
 		code +=  "\t\t\t\t</object>\n" # The start of a scene
 		return code
+
+	def getLooks(self):
+		return self.lookslist
+
+	def getAudios(self):
+		return self.audioslist

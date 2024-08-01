@@ -65,6 +65,8 @@ class PtbException:
 		print(error)
 		exit()
 
+###########################################################################################
+
 class BuilderException:
 	def __init__(self, _type, contents, desc):
 		self.type = _type
@@ -84,6 +86,10 @@ class BuilderException:
 		# All Folders Exceptions
 		elif self.desc == "folder.missing.scenes":
 			error += f"[!] You must create a 'scenes' folder in your project directory."
+		elif self.desc == "folder.destiny.perms":
+			error +=  "[!] We do not have perms to create folders in destiny."
+		elif self.desc == "folder.destiny.error":
+			error +=  "[!] There was an error while creating the destiny folder."
 
 		# All Scenes Exceptions
 		elif self.desc == "scenes.empty":

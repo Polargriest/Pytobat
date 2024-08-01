@@ -1,3 +1,4 @@
+import os, shutil
 from pathlib import Path
 from . import console, essentials
 
@@ -38,11 +39,10 @@ class Pytobat:
 		self.programName = programName
 
 	def build(self, project, destiny, toCatrobat=True):
-		# Validate the paths the user provided
+		# Validate the paths the user provided --------------------------------------------
 		project = essentials.isvalid(project)
-		destiny = essentials.isvalid(destiny)
 
-		# Start the builder ---------------------------------------------------------------
+		# START THE CODE ##################################################################
 		xml = (
 			"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n"
 			"<program>\n" )
@@ -56,19 +56,63 @@ class Pytobat:
 		# Get all scenes ------------------------------------------------------------------
 		xml += "\t<scenes>\n"
 		try:
-			scenes = [scene for scene in (project/'scenes').iterdir()]
+			scenepaths = [scene for scene in (project/'scenes').iterdir()]
 		except FileNotFoundError:
 			raise console.BuilderException("error", [], "folder.missing.scenes")
 
 		# Raise an error if no scenes founded
-		if not scenes:
+		if not scenepaths:
 			raise console.BuilderException("error", [], "scenes.empty")
 
 		# Create scenes
-		for scene in scenes:
+		for scene in scenepaths:
 			scene = essentials.Scene(scene)
+			self.scenes.append(scene)
 			xml += scene.getCode()
 
+		# End the scripting ---------------------------------------------------------------
 		xml += "\t</scenes>\n"
-		# End the builder -----------------------------------------------------------------
 		xml += "</program>"
+
+		# CREATING THE CATROBAT PROJECT ###################################################
+
+		# Convert destiny to path
+		destiny = Path(destiny)
+
+		try:
+			os.makedirs(destiny, exist_ok=True)
+		except PermissionError:
+			raise console.BuilderException("error", [], "folder.destiny.perms")
+		except OSError:
+			raise console.BuilderException("error", [], "folder.destiny.error")
+
+		# Create an scene folder for every scene ------------------------------------------
+		for scene in self.scenes:
+			os.makedirs(destiny / scene.name, exist_ok=True)
+
+			# Create folders for looks and audios -----------------------------------------
+			looksdir =  destiny / scene.name / 'looks'
+			audiosdir = destiny / scene.name / 'audios'
+			os.makedirs(looksdir, exist_ok=True)
+			os.makedirs(audiosdir, exist_ok=True)
+
+			# Add the looks ---------------------------------------------------------------
+			looks = scene.getLooks()
+			if looks:
+				for look in looks:
+					shutil.copy(look, looksdir)
+
+			# Add the audios --------------------------------------------------------------
+			audios = scene.getAudios()
+			if audios:
+				for audio in audios:
+					shutil.copy(audio, audiosdir)
+
+		# Create the XML file -------------------------------------------------------------
+		xmlFile = destiny / 'code.xml'
+		with open(xmlFile, 'w') as file:
+			file.write(xml)
+
+		# CREATE THE CATROBAT PROJECT #####################################################
+		shutil.make_archive(destiny, 'zip', destiny)
+		os.rename(destiny / f"{self.programName}.zip", f"{self.programName}.catrobat")
