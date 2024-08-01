@@ -72,4 +72,3 @@ class Pytobat:
 		xml += "\t</scenes>\n"
 		# End the builder -----------------------------------------------------------------
 		xml += "</program>"
-		print(xml)

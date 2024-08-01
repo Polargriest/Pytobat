@@ -1,3 +1,5 @@
+import random, math
+
 class PtbException:
 	def __init__(self, _type, at, contents, desc):
 		self.type = _type

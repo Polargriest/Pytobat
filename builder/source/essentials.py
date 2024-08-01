@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from . import interpreter as ptbint
 
@@ -26,10 +27,13 @@ class Scene:
 
 		# Get the object list ------------------------------------------------------
 		objects = [obj for obj in self.path.iterdir()]
+
+		# First of all, get the background
+		code += Object(self.path / 'bg').getCode()
 		
+		# Then we create all the other objects
 		for obj in objects:
-			obj = Object(obj)
-			code += obj.getCode()
+			code += Object(obj).getCode()
 
 		# End the scene ------------------------------------------------------------
 		code +=  "\t\t\t</objectList>\n" # The end of the object list
@@ -46,7 +50,6 @@ class Object:
 		looks =  isvalid(self.path / 'looks', False)
 		audios = isvalid(self.path / 'audios', False)
 		script = self.path / 'script.ptb' if Path(self.path / 'script.ptb').exists() else None
-		print(script)
 
 		# Get looks ----------------------------------------------------------------
 		if looks:
@@ -87,7 +90,7 @@ class Object:
 		if script:
 			# Script detected! Opening <scriptList>
 			code += "\t\t\t\t\t<scriptList>\n"
-			code += ptbint.interprete()
+			code += ptbint.interprete(script)
 			code += "\t\t\t\t\t</scriptList>\n"
 		else:
 			code += "\t\t\t\t\t<scriptList/>\n"
