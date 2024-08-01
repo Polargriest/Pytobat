@@ -27,7 +27,7 @@ ptc_project =  "../Game/"
 ptc_destiny = f"../{name}" # TODO THIS MAKES ERRORS
 
 # 4. Create the .catrobat file? (False for testing only)
-catrobat_file = False
+catrobat_file = True
 
 # 5. Additional preferences (check Pytobat documentation for details)
 
