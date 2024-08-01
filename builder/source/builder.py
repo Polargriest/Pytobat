@@ -53,6 +53,9 @@ class Pytobat:
 			xml += f"\t\t<{key}>{self.header[key]}</{key}>\n"
 		xml += "\t</header>\n"
 
+		# Create empty settings -----------------------------------------------------------
+		xml += "\t<settings/>\n"
+
 		# Get all scenes ------------------------------------------------------------------
 		xml += "\t<scenes>\n"
 		try:
@@ -79,20 +82,14 @@ class Pytobat:
 		# Convert destiny to path
 		destiny = Path(destiny)
 
-		try:
-			os.makedirs(destiny, exist_ok=True)
-		except PermissionError:
-			raise console.BuilderException("error", [], "folder.destiny.perms")
-		except OSError:
-			raise console.BuilderException("error", [], "folder.destiny.error")
-
 		# Create an scene folder for every scene ------------------------------------------
 		for scene in self.scenes:
-			os.makedirs(destiny / scene.name, exist_ok=True)
+			scenepath = destiny / scene.name
+			os.makedirs(scenepath, exist_ok=True)
 
 			# Create folders for looks and audios -----------------------------------------
-			looksdir =  destiny / scene.name / 'looks'
-			audiosdir = destiny / scene.name / 'audios'
+			looksdir =  scenepath / 'images'
+			audiosdir = scenepath / 'sounds'
 			os.makedirs(looksdir, exist_ok=True)
 			os.makedirs(audiosdir, exist_ok=True)
 
@@ -114,5 +111,14 @@ class Pytobat:
 			file.write(xml)
 
 		# CREATE THE CATROBAT PROJECT #####################################################
-		shutil.make_archive(destiny, 'zip', destiny)
-		os.rename(destiny / f"{self.programName}.zip", f"{self.programName}.catrobat")
+		if toCatrobat:
+			catrobat = destiny.parent
+
+			if (catrobat / f"{self.programName}.catrobat").exists():
+				os.remove(catrobat / f"{self.programName}.catrobat")
+
+			shutil.make_archive(destiny, 'zip', destiny)
+			os.rename(catrobat / f"{self.programName}.zip", catrobat / f"{self.programName}.catrobat")
+
+			# SUCCESFUL MESSAGE ###########################################################
+			print(f"Succesfully created '{self.programName}'.catrobat at {catrobat / self.programName}.catrobat")

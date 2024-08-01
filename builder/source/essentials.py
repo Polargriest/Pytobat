@@ -33,6 +33,8 @@ class Scene:
 
 		# First of all, get the background
 		code += Object(self.path / 'bg').getCode()
+		if 'bg' in os.listdir(self.path):
+			objects.remove(self.path / 'bg')
 		
 		# Then we create all the other objects
 		for obj in objects:
@@ -56,6 +58,8 @@ class Scene:
 		audios = []
 		for obj in self.objects:
 			audios += obj.getAudios()
+
+		return audios
 
 class Object:
 	lookslist = []

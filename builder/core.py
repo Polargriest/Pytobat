@@ -9,7 +9,7 @@ from source.builder import Pytobat
 # --------------------------------------------------------------------------
 
 # 1. Project name
-name = "My project"
+name = "Pytobat Builder v2"
 
 # 2. Orientation mode (true: landscape | false: portrait)
 header = { "landscapeMode": "true" }
@@ -24,7 +24,7 @@ height = 1126
 #      1) Your Pytobat project folder
 #      2) where you want to save your converted Pocket Code files
 ptc_project =  "../Game/"
-ptc_destiny = f"../{name}"
+ptc_destiny = f"../{name}" # TODO THIS MAKES ERRORS
 
 # 4. Create the .catrobat file? (False for testing only)
 catrobat_file = False
