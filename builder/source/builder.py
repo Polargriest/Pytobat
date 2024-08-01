@@ -1,5 +1,5 @@
 from pathlib import Path
-from . import console
+from . import console, essentials
 
 class Pytobat:
 	header = {
@@ -37,31 +37,39 @@ class Pytobat:
 		self.header["programName"] = programName
 		self.programName = programName
 
-	def isvalid(self, path):
-		# This function is used to validate a certain path the user provided.
-		# Returns the path is valid, otherwise throws path.invalid.
-
-		path = Path(path)
-
-		if path.exists() and path.is_dir():
-			return path
-		else:
-			raise console.BuilderException("error", [path], "path.invalid")
-
 	def build(self, project, destiny, toCatrobat=True):
 		# Validate the paths the user provided
-		project = self.isvalid(project)
-		destiny = self.isvalid(destiny)
+		project = essentials.isvalid(project)
+		destiny = essentials.isvalid(destiny)
 
-		# Start the builder
-		xml = "<program>\n"
+		# Start the builder ---------------------------------------------------------------
+		xml = (
+			"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n"
+			"<program>\n" )
 
-		# Create header
+		# Create header -------------------------------------------------------------------
 		xml += "\t<header>\n"
 		for key in self.header:
 			xml += f"\t\t<{key}>{self.header[key]}</{key}>\n"
 		xml += "\t</header>\n"
 
-		# End the builder
+		# Get all scenes ------------------------------------------------------------------
+		xml += "\t<scenes>\n"
+		try:
+			scenes = [scene for scene in (project/'scenes').iterdir()]
+		except FileNotFoundError:
+			raise console.BuilderException("error", [], "folder.missing.scenes")
+
+		# Raise an error if no scenes founded
+		if not scenes:
+			raise console.BuilderException("error", [], "scenes.empty")
+
+		# Create scenes
+		for scene in scenes:
+			scene = essentials.Scene(scene)
+			xml += scene.getCode()
+
+		xml += "\t</scenes>\n"
+		# End the builder -----------------------------------------------------------------
 		xml += "</program>"
 		print(xml)
