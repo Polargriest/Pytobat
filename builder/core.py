@@ -34,6 +34,7 @@
 
 # Import the builder
 from source.builder import Pytobat
+from pathlib import Path
 
 def validrange(option, num1, num2):
 	try:
@@ -52,6 +53,13 @@ def validresolution(resolution):
 	# If resolution is not a number
 	except ValueError:
 		print("[!] I mean, of course we validated THAT.")
+		return False
+
+def validroute(route):
+	try:
+		route = Path(route)
+		return route.exists() and route.is_dir()
+	except TypeError:
 		return False
 
 # Welcome message
@@ -178,6 +186,7 @@ while resoltuionMenu:
 			print("\n- CHOOSE FROM A LIST: ----- [To go back: -1]")
 			print("Aight. We guarantee that these resolutions work for lots of phones.\n")
 
+			# Print all resolutions
 			resIndex = 0
 			for res in resolutionsList:
 				resIndex += 1
@@ -186,10 +195,12 @@ while resoltuionMenu:
 			print("\n Please, choose wisely!")
 			choosenResolution = 0
 
+			# Ensure is a valid resolution
 			while not validrange(choosenResolution, 1, resIndex):
 				choosenResolution = input(f"(1|{resIndex}) > ")
 
 				if not validrange(choosenResolution, 1, resIndex):
+					# If user want to return
 					if choosenResolution == "-1":
 						print("\n------------------------------\nYeah, no problem. Here's the menu again:\n")
 						print(menu)
@@ -197,6 +208,7 @@ while resoltuionMenu:
 
 					print("[!] Sorry, that's not a valid resolution.")
 				else:
+					# Resolution was choosen succesfuly.
 					choosenResolution = int(choosenResolution) - 1
 					width = resolutionsList[choosenResolution][0]
 					height = resolutionsList[choosenResolution][1]
@@ -213,3 +225,108 @@ while resoltuionMenu:
 			print("\n- USE DEFAULTS: ----- \n")
 			print("Good choice. Hope you like it!\n\n")
 
+# Ask for Folders paths ###########################################################################
+print(
+	"--- 4. Folders ----------------------------- [.][_][X]\n"
+	"Please, specify the route where your Pytobat Project folder is located:\n"
+)
+
+# For the Pytobat Project
+project = None
+while not validroute(project):
+	project = input("> ")
+
+	if not validroute(project):
+		print("[!] Hmm... we don't think that's a valid path route.")
+
+# For the Catrobat file
+print("Excelent! Now, specify where do you want us to create the .catrobat file:")
+
+destiny = None
+while not validroute(destiny):
+	destiny = input("> ")
+
+	if not validroute(destiny):
+		print("[!] Hmm... we don't think that's a valid path route.")
+
+# More preferences ################################################################################
+print(
+	"\n--- 5. More preferences ----------------------------- [.][_][X]\n"
+	"Almost there! Any other preference for the creation of the project?\n"
+	"* If you don't know what this means, probably you don't need it.\n"
+	"* For the documentation of this part, please go to our documentation.\n"
+)
+
+allPreferences = {
+	"applicationBuildName": "",
+	"applicationBuildNumber": 0,
+	"applicationBuildType": "signedRelease",
+	"applicationName": "Pocket Code",
+	"applicationVersion": "1.2.4",
+	"catrobatLanguageVersion": "1.11",
+	"dateTimeUpload": "",
+	"description": "",
+	"deviceName": "ZTE A7030",
+	"isCastProject": "false",
+	"listeningLanguageTag": "",
+	"mediaLicense": "",
+	"notesAndCredits": "",
+	"platform": "Android",
+	"platformVersion": 30,
+	"programLicense": "",
+	"remixOf": "",
+	"scenesEnabled": "true",
+	"screenMode": "STRETCH",
+	"tags": "",
+	"url": "",
+	"userHandle": ""
+}
+
+preferenceManager = True
+menu = (
+	"[1] Change a preference\n"
+	"[2] Check the preference list\n"
+	"[3] Nah! I'm good (very recommended)\n"
+)
+
+print(menu)
+
+while preferenceManager:
+	option = input("(1|2|3) > ")
+
+	if not validrange(option, 1, 3):
+		print("[!] That is not an option")
+	else:
+		option = int(option)
+		if option == 1:
+			# Change a preference
+			print("\nKey of the preference:")
+			selectedKey = input("> ")
+
+			# Validate if option exists
+			if not selectedKey in allPreferences:
+				print("[!] That key does not exists\n\n------------------------------------")
+				print(menu)
+				continue
+
+			print(f"New value for {selectedKey} (current value: \'{allPreferences[selectedKey]}\'):")
+			newValue = input("> ")
+
+			allPreferences[selectedKey] = newValue
+			print(f"\nDone! We changed your preference. Want to do something else?")
+			print(menu)
+
+		elif option == 2:
+			# Check the preference list
+			print("-------------------------------------")
+			for preference in allPreferences:
+				print(f"{preference} (value: \'{allPreferences[preference]}\')")
+			print("-------------------------------------")
+
+		elif option == 3:
+			# Nah! I'm good
+			preferenceManager = False
+
+# Build the game ##################################################################################
+print("\n\n\n\n\nPerfect! That's is for the wizard.")
+print("We are creating your game, please wait...")
