@@ -64,6 +64,7 @@ def validroute(route):
 
 # Welcome message
 print(
+	"---------------------------------------------------------------\n"
 	"Welcome to the Pytobat Wizard!\n"
 	"* You are currently using Pytobat v0.1-dev.2\n"
 	"* Press [ENTER] to start the wizard.\n"
@@ -126,7 +127,7 @@ option = -1
 menu = (
 		"[1] I want to set an exact resolution.\n"
 		"[2] I want to see a list of common resolutions.\n"
-		"[3] Keep the resolution as the default (1473x720)\n"
+		"[3] Keep the resolution as the default (720x1473)\n"
 	)
 resolutionsList = [
 	[720, 1473],  # CupStudios phone
@@ -217,13 +218,11 @@ while resoltuionMenu:
 					resoltuionMenu = False
 
 		elif option == 3:
-			# Keep the resolution as the default (1473x720)
-			width = 1473
-			height = 720
+			# Keep the resolution as the default (720x1473)
+			width = 720
+			height = 1437
 
 			resoltuionMenu = False
-			print("\n- USE DEFAULTS: ----- \n")
-			print("Good choice. Hope you like it!\n\n")
 
 # Ask for Folders paths ###########################################################################
 print(
@@ -240,14 +239,11 @@ while not validroute(ptc_project):
 		print("[!] Hmm... we don't think that's a valid path route.")
 
 # For the Catrobat file
-print("Excelent! Now, specify where do you want us to create the .catrobat file:")
+print("Excelent! Now, specify where do you want us to create the .catrobat file")
 
 ptc_destiny = None
-while not validroute(ptc_destiny):
-	ptc_destiny = input("> ")
-
-	if not validroute(ptc_destiny):
-		print("[!] Hmm... we don't think that's a valid path route.")
+ptc_destiny = input("> ")
+ptc_destiny += f"/{name}"
 
 # More preferences ################################################################################
 print(
@@ -337,6 +333,16 @@ ptc = Pytobat(name)
 for attribute in allPreferences:
 	ptc.header[attribute] = allPreferences[attribute]
 
+ptc.header["landscapeMode"] = "true" if orientation == 2 else "false"
+
+if orientation == 2:
+	ptc.header["screenWidth"] = width
+	ptc.header["screenHeight"] = height
+else:
+	ptc.header["screenWidth"] = height
+	ptc.header["screenHeight"] = width
+
+# Build and end
 ptc.build(ptc_project, ptc_destiny, True)
 
 print(
