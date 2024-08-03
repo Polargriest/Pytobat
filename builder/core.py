@@ -232,21 +232,21 @@ print(
 )
 
 # For the Pytobat Project
-project = None
-while not validroute(project):
-	project = input("> ")
+ptc_project = None
+while not validroute(ptc_project):
+	ptc_project = input("> ")
 
-	if not validroute(project):
+	if not validroute(ptc_project):
 		print("[!] Hmm... we don't think that's a valid path route.")
 
 # For the Catrobat file
 print("Excelent! Now, specify where do you want us to create the .catrobat file:")
 
-destiny = None
-while not validroute(destiny):
-	destiny = input("> ")
+ptc_destiny = None
+while not validroute(ptc_destiny):
+	ptc_destiny = input("> ")
 
-	if not validroute(destiny):
+	if not validroute(ptc_destiny):
 		print("[!] Hmm... we don't think that's a valid path route.")
 
 # More preferences ################################################################################
@@ -330,3 +330,28 @@ while preferenceManager:
 # Build the game ##################################################################################
 print("\n\n\n\n\nPerfect! That's is for the wizard.")
 print("We are creating your game, please wait...")
+
+ptc = Pytobat(name)
+
+# Apply header settings
+for attribute in allPreferences:
+	ptc.header[attribute] = allPreferences[attribute]
+
+ptc.build(ptc_project, ptc_destiny, True)
+
+print(
+	"\nAnd we are done. Thanks for the time!"
+	"\n* If you want to create a game with the same settings, "
+	"please enter this the next time you run the Wizard\n\n"
+
+	f"{name}\n"
+	f"{orientation}\n"
+	 "1\n"
+	f"{width}\n"
+	f"{height}\n"
+	f"{ptc_project}\n"
+	f"{ptc_destiny}\n"
+	f"1\n"
+
+	"\n----------------------------------------------------------------------"
+	)
