@@ -5,9 +5,9 @@
 > This is the code for **Pytobat v0.1-alpha1**. Please, report any issues here on GitHub.
 
 # How to start?
-You can either\:
-- Download an empty Pytobat Project here [clicking here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
-- Download the files on this repository and start from scratch (why would you do that).
+- Download an empty Pytobat Project here [clicking here](https://www.mediafire.com/file/aelmz2h7ne8bf5t/Pytobat_Template.zip/file).
+- Download the whole `builder` folder.
+- Follow the steps in the `fr_readme.txt` located in the Pytobat Project.
 
 Also, you will also need the latest version of Python, which you can [install here](https://www.python.org/downloads/)
 

@@ -36,6 +36,40 @@
 from source.builder import Pytobat
 from pathlib import Path
 
+# If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
+if False:
+	name = "TEST"      # Name of the Pocket Code game
+	orientation = 2            # (1: portrait | 2: landscape)
+	widht = 720
+	height = 1437              # Pytobat automatically changes these to fit orientation
+	ptc_project = "../Game"    # Location of your project
+	ptc_destiny = f"../{name}" # Location of where you want the .catrobat
+	export = True              # Do you want it to export to .catrobat? False for testing
+
+	buildMyGame(export) # That's it. You're welcome.
+	exit()
+
+#########################################################################################
+
+def buildMyGame(export=True):
+	ptc = Pytobat(name)
+
+	# Apply header settings
+	for attribute in allPreferences:
+		ptc.header[attribute] = allPreferences[attribute]
+
+	ptc.header["landscapeMode"] = "true" if orientation == 2 else "false"
+
+	if orientation == 2:
+		ptc.header["screenWidth"] = width
+		ptc.header["screenHeight"] = height
+	else:
+		ptc.header["screenWidth"] = height
+		ptc.header["screenHeight"] = width
+
+	# Build and end
+	ptc.build(ptc_project, ptc_destiny, export)
+
 def validrange(option, num1, num2):
 	try:
 		option = int(option)
@@ -327,23 +361,9 @@ while preferenceManager:
 print("\n\n\n\n\n\n\n\n\nPerfect! That's is for the wizard.")
 print("We are creating your game, please wait...")
 
-ptc = Pytobat(name)
+buildMyGame()
 
-# Apply header settings
-for attribute in allPreferences:
-	ptc.header[attribute] = allPreferences[attribute]
 
-ptc.header["landscapeMode"] = "true" if orientation == 2 else "false"
-
-if orientation == 2:
-	ptc.header["screenWidth"] = width
-	ptc.header["screenHeight"] = height
-else:
-	ptc.header["screenWidth"] = height
-	ptc.header["screenHeight"] = width
-
-# Build and end
-ptc.build(ptc_project, ptc_destiny, True)
 
 print(
 	"\nAnd we are done. Thanks for the time!"
