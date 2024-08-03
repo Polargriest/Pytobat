@@ -29,7 +29,7 @@
                 d8'                                                    
 
 * Run this Python file to convert your Pytobat Project to a Pocket Code game
-* Currently using Pytobat version 0.1-dev.2
+* Currently using Pytobat version 0.1-alpha1
 """
 
 # Import the builder
@@ -66,7 +66,7 @@ def validroute(route):
 print(
 	"---------------------------------------------------------------\n"
 	"Welcome to the Pytobat Wizard!\n"
-	"* You are currently using Pytobat v0.1-dev.2\n"
+	"* You are currently using Pytobat v0.1-alpha1\n"
 	"* Press [ENTER] to start the wizard.\n"
 )
 
@@ -74,7 +74,7 @@ input()
 
 # Ask for Project name ############################################################################
 print(
-	"--- 1. Name ----------------------------- [.][_][X]\n"
+	"--- 1. Name ------------------------------------------------------------------- [.][_][X]\n"
 	"Name of your Pocket Code game:\n"
 )
 
@@ -82,7 +82,7 @@ name = input("> ")
 
 # Ask for game orientation ########################################################################
 print(
-	"\n--- 2. Orientation --------------------------------\n"
+	"\n--- 2. Orientation --------------------------------------------------------------------\n"
 	"Orientation of your game:\n\n"
 
 	" 1)  ______    2)  _____________ \n"
@@ -108,7 +108,7 @@ while not validrange(orientation, 1, 2):
 
 # Ask for game resolution #########################################################################
 print(
-	"\n--- 3. Resolution --------------------------------\n"
+	"\n--- 3. Resolution ---------------------------------------------------------------------\n"
 	"Please, choose the resolution of your game.\n"
 	"* Wait, what'd you say? You don't know resolutions? Fear not.\n"
 	"* Please choose an options for our Resolution Manager.\n\n"
@@ -226,7 +226,7 @@ while resoltuionMenu:
 
 # Ask for Folders paths ###########################################################################
 print(
-	"--- 4. Folders ----------------------------- [.][_][X]\n"
+	"--- 4. Folders ---------------------------------------------------------------- [.][_][X]\n"
 	"Please, specify the route where your Pytobat Project folder is located:\n"
 )
 
@@ -247,7 +247,7 @@ ptc_destiny += f"/{name}"
 
 # More preferences ################################################################################
 print(
-	"\n--- 5. More preferences ----------------------------- [.][_][X]\n"
+	"\n--- 5. More preferences ----------------------------------------------------- [.][_][X]\n"
 	"Almost there! Any other preference for the creation of the project?\n"
 	"* If you don't know what this means, probably you don't need it.\n"
 	"* For the documentation of this part, please go to our documentation.\n"
@@ -324,7 +324,7 @@ while preferenceManager:
 			preferenceManager = False
 
 # Build the game ##################################################################################
-print("\n\n\n\n\nPerfect! That's is for the wizard.")
+print("\n\n\n\n\n\n\n\n\nPerfect! That's is for the wizard.")
 print("We are creating your game, please wait...")
 
 ptc = Pytobat(name)

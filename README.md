@@ -1,8 +1,8 @@
 # Pytobat
 **Build and develop Pocket Code games using Pytobat**. This repository includes a builder and a cutom programming language syntax designed specifically for coding faster games.
 
-> [!WARNING]
-> This is the code for **Pytobat v0.1-dev.2**. This is a **development version**. Please do not share this with anyone, until the final release.
+> [!NOTE]
+> This is the code for **Pytobat v0.1-alpha1**. Please, report any issues here on GitHub.
 
 # How to start?
 You can either\:
