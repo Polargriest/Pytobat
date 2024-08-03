@@ -1,45 +1,37 @@
+"""
+                                               (                  
+                                 @@@        @   @                 
+                               @(     @@@@#     #                 
+                              @*  @    /@@    @ ,@                
+                              @ @  @@      @@   @                 
+                              @  @ @@   @@  &   @#                
+                            /@@@@@    &@(  @@ @  @                
+                       @@ @ @* @         @@@@   @      @ @@       
+                     @     @  @@ @@          .@      .@      @    
+                   @         @    @@         @    @@@          @  
+                  @      @    %@               @@@  @  @        @ 
+                 @ .@   &*        @        @    @@@ @@@@ @       @
+                 @     @     /@  @         @       @@@  @/#@&@@@@@
+                       /     @@@&*          @    @ @@@            
+                             @@@@            /@@                  
+                                @                                 
+                                 (@ 
+
+88888888ba                                     88                       
+88      "8b                 ,d                 88                         ,d
+88      ,8P                 88                 88                         88
+88aaaaaa8P'  8b       d8  MM88MMM  ,adPPYba,   88,dPPYba,   ,adPPYYba,  MM88MMM
+88'''''''    `8b     d8'    88    a8"     "8a  88P'    "8a  ""     `Y8    88
+88            `8b   d8'     88    8b       d8  88       d8  ,adPPPPP88    88
+88             `8b,d8'      88,   "8a,   ,a8"  88b,   ,a8"  88,    ,88    88,
+88               Y88'       "Y888  `"YbbdP"'   8Y"Ybbd8"'   `"8bbdP"Y8    "Y888
+                 d8'                                                   
+                d8'                                                    
+
+* Run this Python file to convert your Pytobat Project to a Pocket Code game
+* Currently using Pytobat version 0.1-dev.2
+"""
+
 from source.builder import Pytobat
 
-"""
-* Welcome to the Pytobat Builder! :)
-* This file is used to convert your Pytobat code into Pocket Code projects.
-* Follow the steps below to build your first game effortlessly.
-"""
-
-# --------------------------------------------------------------------------
-
-# 1. Project name
-name = "Pytobat Builder v2"
-
-# 2. Orientation mode (true: landscape | false: portrait)
-header = { "landscapeMode": "true" }
-
-# 3. Resolution (we'll adjust for orientation)
-width = 1080
-height = 1126
-
-# --------------------------------------------------------------------------
-
-# 4. Specify
-#      1) Your Pytobat project folder
-#      2) where you want to save your converted Pocket Code files
-ptc_project =  "../Game/"
-ptc_destiny = f"../{name}" # TODO THIS MAKES ERRORS
-
-# 4. Create the .catrobat file? (False for testing only)
-catrobat_file = True
-
-# 5. Additional preferences (check Pytobat documentation for details)
-
-# --------------------------------------------------------------------------
-
-# That's it! Run this Python file to start the builder.
-# Everyhting below is for the builder. DO NOT CHANGE.
-
-ptc = Pytobat(name)
-
-# Apply header settings
-for attribute in header:
-	ptc.header[attribute] = header[attribute]
-
-ptc.build(ptc_project, ptc_destiny, catrobat_file)
+print("Hola!")
