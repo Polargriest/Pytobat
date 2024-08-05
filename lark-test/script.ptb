@@ -1,5 +1,0 @@
-event WHEN_SCENE_STARTS:
-	print(sin(90), "Hello (world)")
-
-event WHEN_TAPPED:
-	position(100 + 5)

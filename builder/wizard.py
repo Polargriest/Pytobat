@@ -88,7 +88,7 @@ if True:
 	height = 1437              # Pytobat automatically changes these to fit orientation
 	ptc_project = "../Game"    # Location of your project
 	ptc_destiny = f"../{name}" # Location of where you want the .catrobat
-	export = True              # Do you want it to export to .catrobat? False for testing
+	export = False             # Do you want it to export to .catrobat? False for testing
 
 	buildMyGame(export) # That's it. You're welcome.
 	exit()

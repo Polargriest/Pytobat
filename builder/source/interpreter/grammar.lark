@@ -1,0 +1,38 @@
+// The start of everything
+start: event+
+
+// Define what events are
+event: "event" event_name ":" code_block
+event_name: EVENTS_LIST
+EVENTS_LIST: "WHEN_SCENE_STARTS" | "WHEN_TAPPED"
+
+// Define what code_blocks are
+code_block: (function)+
+
+// Define functions
+function: function_name "(" argument? ("," argument)* ")"
+function_name: FUNC_NAME_RULES
+FUNC_NAME_RULES: /\w+/
+
+//Define what arguments are
+argument: string | number | nested_func | expression
+
+// Type of arguments
+string: ESCAPED_STRING
+number: NUMBER
+nested_func: function_name "(" argument? ("," argument)* ")"
+
+// Define expressions
+expression: (number | nested_func) (operator (number | nested_func))+
+operator: "+" -> add
+	| "-" -> sub
+	| "*" -> mult
+	| "/" -> div
+
+// Ignore whitespaces
+%import common.WS
+%ignore WS
+
+// Import common tokens
+%import common.NUMBER
+%import common.ESCAPED_STRING
