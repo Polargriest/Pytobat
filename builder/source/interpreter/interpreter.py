@@ -1,5 +1,5 @@
 import re, uuid
-from . import console
+from .. import console
 
 # Reserved words ------------------------------------------------------
 KEYWORDS = ["event", "pass"]

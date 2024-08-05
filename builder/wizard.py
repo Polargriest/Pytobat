@@ -36,20 +36,30 @@
 from source.builder import Pytobat
 from pathlib import Path
 
-# If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
-if False:
-	name = "TEST"      # Name of the Pocket Code game
-	orientation = 2            # (1: portrait | 2: landscape)
-	widht = 720
-	height = 1437              # Pytobat automatically changes these to fit orientation
-	ptc_project = "../Game"    # Location of your project
-	ptc_destiny = f"../{name}" # Location of where you want the .catrobat
-	export = True              # Do you want it to export to .catrobat? False for testing
-
-	buildMyGame(export) # That's it. You're welcome.
-	exit()
-
-#########################################################################################
+allPreferences = {
+	"applicationBuildName": "",
+	"applicationBuildNumber": 0,
+	"applicationBuildType": "signedRelease",
+	"applicationName": "Pocket Code",
+	"applicationVersion": "1.2.4",
+	"catrobatLanguageVersion": "1.11",
+	"dateTimeUpload": "",
+	"description": "",
+	"deviceName": "ZTE A7030",
+	"isCastProject": "false",
+	"listeningLanguageTag": "",
+	"mediaLicense": "",
+	"notesAndCredits": "",
+	"platform": "Android",
+	"platformVersion": 30,
+	"programLicense": "",
+	"remixOf": "",
+	"scenesEnabled": "true",
+	"screenMode": "STRETCH",
+	"tags": "",
+	"url": "",
+	"userHandle": ""
+}
 
 def buildMyGame(export=True):
 	ptc = Pytobat(name)
@@ -69,6 +79,21 @@ def buildMyGame(export=True):
 
 	# Build and end
 	ptc.build(ptc_project, ptc_destiny, export)
+
+# If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
+if True:
+	name = "TEST"      # Name of the Pocket Code game
+	orientation = 2            # (1: portrait | 2: landscape)
+	width = 720
+	height = 1437              # Pytobat automatically changes these to fit orientation
+	ptc_project = "../Game"    # Location of your project
+	ptc_destiny = f"../{name}" # Location of where you want the .catrobat
+	export = True              # Do you want it to export to .catrobat? False for testing
+
+	buildMyGame(export) # That's it. You're welcome.
+	exit()
+
+#########################################################################################
 
 def validrange(option, num1, num2):
 	try:
@@ -286,31 +311,6 @@ print(
 	"* If you don't know what this means, probably you don't need it.\n"
 	"* For the documentation of this part, please go to our documentation.\n"
 )
-
-allPreferences = {
-	"applicationBuildName": "",
-	"applicationBuildNumber": 0,
-	"applicationBuildType": "signedRelease",
-	"applicationName": "Pocket Code",
-	"applicationVersion": "1.2.4",
-	"catrobatLanguageVersion": "1.11",
-	"dateTimeUpload": "",
-	"description": "",
-	"deviceName": "ZTE A7030",
-	"isCastProject": "false",
-	"listeningLanguageTag": "",
-	"mediaLicense": "",
-	"notesAndCredits": "",
-	"platform": "Android",
-	"platformVersion": 30,
-	"programLicense": "",
-	"remixOf": "",
-	"scenesEnabled": "true",
-	"screenMode": "STRETCH",
-	"tags": "",
-	"url": "",
-	"userHandle": ""
-}
 
 preferenceManager = True
 menu = (

@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-from . import interpreter as ptbint, console
+from . import console
+from .interpreter import interpreter as ptbint
 
 def isvalid(path, exception=True):
 		# This function is used to validate a certain path the user provided.
