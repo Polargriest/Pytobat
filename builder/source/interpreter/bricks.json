@@ -1,0 +1,6 @@
+{
+	"events": {
+		"WHEN_SCENE_STARTS": "StartScript",
+		"WHEN_TAPPED": "WhenScript"
+	}
+}

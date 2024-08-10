@@ -1,38 +1,36 @@
-// The start of everything
 start: event+
 
-// Define what events are
-event: "event" event_name ":" code_block
+event: "event" event_name ":" _NL _INDENT code_block _DEDENT
 event_name: EVENTS_LIST
 EVENTS_LIST: "WHEN_SCENE_STARTS" | "WHEN_TAPPED"
 
-// Define what code_blocks are
-code_block: (function)+
+code_block: brick+
 
-// Define functions
-function: function_name "(" argument? ("," argument)* ")"
-function_name: FUNC_NAME_RULES
-FUNC_NAME_RULES: /\w+/
+brick: brick_name "(" arguments ")" _NL
+arguments: argument? ("," argument)*
+brick_name: BRICK_NAME_RULES
+BRICK_NAME_RULES: /\w+/
 
-//Define what arguments are
-argument: string | number | nested_func | expression
+argument: string | number | function | expression
 
-// Type of arguments
 string: ESCAPED_STRING
 number: NUMBER
-nested_func: function_name "(" argument? ("," argument)* ")"
+function: brick_name "(" argument? ("," argument)* ")"
 
-// Define expressions
-expression: (number | nested_func) (operator (number | nested_func))+
+expression: (number | function) (operator (number | function))+
 operator: "+" -> add
-	| "-" -> sub
-	| "*" -> mult
-	| "/" -> div
+        | "-" -> sub
+        | "*" -> mult
+        | "/" -> div
 
-// Ignore whitespaces
+%import common.WS_INLINE
 %import common.WS
 %ignore WS
+%ignore WS_INLINE
 
-// Import common tokens
+%declare _INDENT _DEDENT
+
+_NL: /(\r?\n[\t ]*)+/
+
 %import common.NUMBER
 %import common.ESCAPED_STRING

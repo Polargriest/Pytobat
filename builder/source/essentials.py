@@ -117,7 +117,8 @@ class Object:
 		if script:
 			# Script detected! Opening <scriptList>
 			code += "\t\t\t\t\t<scriptList>\n"
-			code += ptbint.interprete(script)
+			objCode = ptbint.Interpreter(script)
+			code += objCode.interprete()
 			code += "\t\t\t\t\t</scriptList>\n"
 		else:
 			code += "\t\t\t\t\t<scriptList/>\n"

@@ -1,2 +1,0 @@
-event WHEN_TAPPED:
-	hide("Hola", 123 + 450)

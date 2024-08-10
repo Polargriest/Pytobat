@@ -1,17 +1,26 @@
 from lark import Lark
+from lark.indenter import Indenter
 import os
 
-# Import the grammar
-parser = None
-with open(os.path.join(os.path.dirname(__file__), 'grammar.lark'), 'r') as grammar:
-	parser = Lark(grammar.read())
+class IndenterParser(Indenter):
+	NL_type = '_NL'
+	OPEN_PAREN_types = []
+	CLOSE_PAREN_types = []
+	INDENT_type = '_INDENT'
+	DEDENT_type = '_DEDENT'
+	tab_len = 4
 
-def interprete(script):
-	with open(script, 'r') as ptb_file:
-		script = ptb_file.read()
+class Interpreter:
+	def __init__(self, script):
+		# Open the script
+		with open(script, 'r') as _script:
+			self.script = _script.read()
 
-	tree = parser.parse(script)
-	print(tree.pretty())
-	return ""
+		# Open the grammar and create the parser
+		with open(os.path.join(__file__, '../grammar.lark')) as _grammar:
+			self.parser = Lark(_grammar, parser='lalr', postlex=IndenterParser())
 
-#interprete("script.ptb")
+	# This method is the interpreter manager
+	def interprete(self):
+		print(self.parser.parse(self.script).pretty())
+		return ""
