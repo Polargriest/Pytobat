@@ -1,0 +1,38 @@
+// Starting rules
+// =====================
+statements: event+
+
+// Events
+// =====================
+event: "event" event_name ":" code_block
+event_name: NAME
+
+// Suites (presumably blocks of code)
+// =====================
+code_block: _NEWLINE _INDENT brick+ _DEDENT
+brick: (simple_brick | compound_brick) _NEWLINE
+
+// Types of bricks
+// =====================
+simple_brick: brick_name "(" arguments ")"
+compound_brick: "ASJDFLASDASJDKL"
+
+brick_name: NAME
+arguments: args? ("," args)*
+args: string
+
+// Data types
+// =====================
+string: ESCAPED_STRING
+
+// Imports
+// =====================
+%import common.CNAME -> NAME
+%import common.ESCAPED_STRING
+%declare _INDENT _DEDENT
+_NEWLINE: /\r?\n[\t ]*/+
+
+// Ignores
+// =====================
+%ignore /[\t \f]+/
+%ignore /\\[\t \f]*\r?\n/

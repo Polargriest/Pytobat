@@ -3,7 +3,7 @@ from lark.indenter import Indenter
 import os
 
 class IndenterParser(Indenter):
-	NL_type = '_NL'
+	NL_type = '_NEWLINE'
 	OPEN_PAREN_types = []
 	CLOSE_PAREN_types = []
 	INDENT_type = '_INDENT'
@@ -17,8 +17,8 @@ class Interpreter:
 			self.script = _script.read()
 
 		# Open the grammar and create the parser
-		with open(os.path.join(__file__, '../grammar.lark')) as _grammar:
-			self.parser = Lark(_grammar, parser='lalr', postlex=IndenterParser())
+		with open(os.path.join(__file__, '../pytobat.gram')) as _grammar:
+			self.parser = Lark(_grammar, parser='lalr', postlex=IndenterParser(), start='statements')
 
 	# This method is the interpreter manager
 	def interprete(self):
