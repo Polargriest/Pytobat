@@ -60,6 +60,8 @@
 						</sound>
 					</soundList>
 					<scriptList>
+						<script type="type" posX="0.0" posY="0.0">
+							<brickList>
 					</scriptList>
 					<nfcTagList/>
 					<userVariables/>

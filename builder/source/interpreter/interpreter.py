@@ -8,7 +8,7 @@ import json
 import uuid
 
 # Libraries to handle exceptions in the interpreter
-from . import ptbExceptions as cnsl
+#from . import ptbExceptions as cnsl
 
 class IndenterParser(Indenter):
 	NL_type = '_NEWLINE'
@@ -31,14 +31,36 @@ class TranformXML(Transformer):
 			self.brickData = json.load(_bricksData)
 
 	def event(self, items): # Event handler -------------------------------------------------------
+
 		# Check if the event exists
 		eventName = items[0].children[0]
 		if not eventName in self.brickData["events"]:
 			cnsl.PtbException('e', [self.path, eventName.line], [eventName], 'event.notfound')
 
-		self.xml += (
-			"\t\t\t\t\t\t<script type=\"type\" posX=\"0.0\" posY=\"0.0\">"
+		# Start script in XML code
+		self.xml += "\t\t\t\t\t\t<script type=\"type\" posX=\"0.0\" posY=\"0.0\">\n"
+		print("Items: " + str(items))
+
+		if items[1].data == 'pass': # Run this if event is empty
+			self.xml += (
+				 "\t\t\t\t\t\t\t<brickList/>\n"
+				 "\t\t\t\t\t\t\t<commentedOut>false</commentedOut>\n"
+				f"\t\t\t\t\t\t\t<scriptId>{uuid.uuid4()}</scriptId>\n"
+				 "\t\t\t\t\t\t</script>\n"
 			)
+		else:
+			self.xml += "\t\t\t\t\t\t\t<brickList>\n"
+			self.buffer.append(
+				 "\t\t\t\t\t\t\t</brickList>\n"
+				 "\t\t\t\t\t\t\t<commentedOut>false</commentedOut>\n"
+				f"\t\t\t\t\t\t\t<scriptId>{uuid.uuid4()}</scriptId>\n"
+				 "\t\t\t\t\t\t</script>\n"
+				)
+
+	def asdfmovie(self, contents):
+		print("Brick found!")
+		return ""
+
 
 class Interpreter:
 	def __init__(self, script):
@@ -55,5 +77,10 @@ class Interpreter:
 	# This method is the interpreter manager
 	def interprete(self):
 		tree = self.parser.parse(self.script + "\n")
-		TranformXML(self.scriptPath).transform(tree)
-		return ""
+		transoformer = TranformXML(self.scriptPath)
+		transoformer.transform(tree)
+
+		print("----------------- PRINTING TREE -----------------\n" + tree.pretty())
+		print("----------------- PRINTING CODE -----------------\n" + transoformer.xml)
+
+		return transoformer.xml

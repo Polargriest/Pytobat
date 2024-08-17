@@ -4,18 +4,18 @@ statements: event+
 
 // Events
 // =====================
-event: "event" event_name ":" code_block
+event: "event" event_name ":" (code_block | pass)
 event_name: NAME
 
 // Suites (presumably blocks of code)
 // =====================
 code_block: _NEWLINE _INDENT brick+ _DEDENT
-brick: (simple_brick | compound_brick) _NEWLINE
+
+pass: _NEWLINE _INDENT "pass" _NEWLINE _DEDENT
 
 // Types of bricks
 // =====================
-simple_brick: brick_name "(" arguments ")"
-compound_brick: "ASJDFLASDASJDKL"
+brick: brick_name "(" arguments ")" _NEWLINE
 
 brick_name: NAME
 arguments: arg? ("," arg)*
