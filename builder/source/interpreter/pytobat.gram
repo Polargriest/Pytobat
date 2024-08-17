@@ -18,17 +18,28 @@ simple_brick: brick_name "(" arguments ")"
 compound_brick: "ASJDFLASDASJDKL"
 
 brick_name: NAME
-arguments: args? ("," args)*
-args: string
+arguments: arg? ("," arg)*
+arg: string | number | expression | function
 
 // Data types
 // =====================
 string: ESCAPED_STRING
+number: NUMBER
+expression: (number | function) (operator (number | function))+
+function: function_name "(" arguments ")"
+
+function_name: NAME
+operator:
+	| "+" -> add
+	| "-" -> sub
+	| "*" -> mult
+	| "/" -> div
 
 // Imports
 // =====================
 %import common.CNAME -> NAME
 %import common.ESCAPED_STRING
+%import common.NUMBER
 %declare _INDENT _DEDENT
 _NEWLINE: /\r?\n[\t ]*/+
 
