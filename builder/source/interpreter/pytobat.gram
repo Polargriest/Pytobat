@@ -4,14 +4,14 @@ statements: event+
 
 // Events
 // =====================
-event: "event" event_name ":" (code_block | pass)
+event: "event" event_name ":" (code_block | ptb_pass)
 event_name: NAME
 
 // Suites (presumably blocks of code)
 // =====================
 code_block: _NEWLINE _INDENT brick+ _DEDENT
 
-pass: _NEWLINE _INDENT "pass" _NEWLINE _DEDENT
+ptb_pass: _NEWLINE _INDENT "pass" _NEWLINE _DEDENT
 
 // Types of bricks
 // =====================

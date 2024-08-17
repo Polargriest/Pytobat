@@ -2,5 +2,27 @@
 	"events": {
 		"WHEN_SCENE_STARTS": "StartScript",
 		"WHEN_TAPPED": "WhenScript"
+	},
+
+	"bricks": {
+		"hide": {
+			"arguments": 0,
+			"type": "HideBrick"
+		},
+
+		"show": {
+			"arguments": 0,
+			"type": "ShowBrick"
+		},
+
+		"next_look": {
+			"arguments": 0,
+			"type": "NextLookBrick"
+		},
+
+		"previous_look": {
+			"arguments": 0,
+			"type": "PreviousLookBrick"
+		}
 	}
 }

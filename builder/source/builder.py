@@ -1,6 +1,6 @@
 import os, shutil
 from pathlib import Path
-from . import console, essentials
+from . import bldExceptions, essentials
 
 class Pytobat:
 	header = {
@@ -19,7 +19,7 @@ class Pytobat:
 		"mediaLicense": "",
 		"notesAndCredits": "",
 		"platform": "Android",
-		"platformVersion": 30,
+		"platformVersion": 33,
 		"programLicense": "",
 		"programName": "Pytocat",
 		"remixOf": "",
@@ -61,11 +61,11 @@ class Pytobat:
 		try:
 			scenepaths = [scene for scene in (project/'scenes').iterdir()]
 		except FileNotFoundError:
-			raise console.BuilderException("error", [], "folder.missing.scenes")
+			raise bldExceptions.BuilderException("error", [], "folder.missing.scenes")
 
 		# Raise an error if no scenes founded
 		if not scenepaths:
-			raise console.BuilderException("error", [], "scenes.empty")
+			raise bldExceptions.BuilderException("error", [], "scenes.empty")
 
 		# Create scenes
 		for scene in scenepaths:
@@ -75,6 +75,11 @@ class Pytobat:
 
 		# End the scripting ---------------------------------------------------------------
 		xml += "\t</scenes>\n"
+		xml += (
+			"\t<programVariableList/>\n"
+			"\t<programListOfLists/>\n"
+			"\t<programMultiplayerVariableList/>\n"
+			)
 		xml += "</program>"
 
 		# CREATING THE CATROBAT PROJECT ###################################################

@@ -1,5 +1,5 @@
 # Import all lark functionalities
-from lark import Lark, Transformer
+from lark import Lark, Visitor
 from lark.indenter import Indenter
 
 # Libraries needed for the interpreter to work
@@ -18,7 +18,7 @@ class IndenterParser(Indenter):
 	DEDENT_type = '_DEDENT'
 	tab_len = 4
 
-class TranformXML(Transformer):
+class WriteXML(Visitor):
 	xml = ""
 	buffer = []
 
@@ -30,36 +30,60 @@ class TranformXML(Transformer):
 		with open(os.path.join(__file__, '../bricks.json'), 'r') as _bricksData:
 			self.brickData = json.load(_bricksData)
 
+	def pop_context(self):
+		try:
+			self.xml += self.buffer[0]
+			self.buffer.pop()
+		except IndexError:
+			pass
+
 	def event(self, items): # Event handler -------------------------------------------------------
 
 		# Check if the event exists
-		eventName = items[0].children[0]
+		eventName = items.children[0].children[0]
 		if not eventName in self.brickData["events"]:
-			cnsl.PtbException('e', [self.path, eventName.line], [eventName], 'event.notfound')
+			cnsl.PtbException('e', [self.path, eventName.line], [eventName.value], 'event.notfound')
+
+		# Empty the buffer to let next event start
+		self.pop_context()
 
 		# Start script in XML code
-		self.xml += "\t\t\t\t\t\t<script type=\"type\" posX=\"0.0\" posY=\"0.0\">\n"
-		print("Items: " + str(items))
+		self.xml += f"\t\t\t\t\t\t<script type=\"{self.brickData["events"][eventName.value]}\" posX=\"0.0\" posY=\"0.0\">\n"
 
-		if items[1].data == 'pass': # Run this if event is empty
-			self.xml += (
-				 "\t\t\t\t\t\t\t<brickList/>\n"
-				 "\t\t\t\t\t\t\t<commentedOut>false</commentedOut>\n"
-				f"\t\t\t\t\t\t\t<scriptId>{uuid.uuid4()}</scriptId>\n"
-				 "\t\t\t\t\t\t</script>\n"
+		self.xml += "\t\t\t\t\t\t\t<brickList>\n"
+		self.buffer.append(
+			"\t\t\t\t\t\t\t</brickList>\n" +
+			makeFooter(7, 'event') + 
+			"\t\t\t\t\t\t</script>\n"
 			)
-		else:
-			self.xml += "\t\t\t\t\t\t\t<brickList>\n"
-			self.buffer.append(
-				 "\t\t\t\t\t\t\t</brickList>\n"
-				 "\t\t\t\t\t\t\t<commentedOut>false</commentedOut>\n"
-				f"\t\t\t\t\t\t\t<scriptId>{uuid.uuid4()}</scriptId>\n"
-				 "\t\t\t\t\t\t</script>\n"
-				)
 
-	def asdfmovie(self, contents):
-		print("Brick found!")
-		return ""
+	def ptb_pass(self): # Empty code block using ptb_pass -----------------------------------------
+		self.xml = self.xml[:-12] + "<bricklist/>\n"
+		self.xml += "\n".join(self.buffer[0].splitlines()[1:])
+
+	def brick(self, contents): # Bricks -----------------------------------------------------------
+
+		# Check if brick exists
+		brickName = contents.children[0].children[0]
+		if not brickName in self.brickData["bricks"]:
+			cnsl.PtbException('e', [self.path, brickName.line], [brickName.value], 'brick.notfound')
+
+		# Check if the amonut of arguments sent is correct
+		givenArguments = contents.children[1].children
+		argumentsNeeded = self.brickData["bricks"][brickName.value]["arguments"]
+		if len(givenArguments) != argumentsNeeded:
+			cnsl.PtbException('e', [self.path, brickName.line], [brickName.value, len(givenArguments), argumentsNeeded], 'brick.args.mismatch')
+		
+		# Write brick on XML
+		self.xml += (
+			f"\t\t\t\t\t\t\t\t<brick type=\"{self.brickData["bricks"][brickName.value]["type"]}\">\n" + 
+			 makeFooter(9, 'brick') +
+			 "\t\t\t\t\t\t\t\t</brick>\n"
+		)
+
+	def on_finish(self): # Runs when tree visiting finishes ---------------------------------------
+		for item in self.buffer:
+			self.xml += item
 
 
 class Interpreter:
@@ -77,10 +101,20 @@ class Interpreter:
 	# This method is the interpreter manager
 	def interprete(self):
 		tree = self.parser.parse(self.script + "\n")
-		transoformer = TranformXML(self.scriptPath)
-		transoformer.transform(tree)
+		transoformer = WriteXML(self.scriptPath)
+		transoformer.visit_topdown(tree)
+		transoformer.on_finish()
 
-		print("----------------- PRINTING TREE -----------------\n" + tree.pretty())
-		print("----------------- PRINTING CODE -----------------\n" + transoformer.xml)
+		#print("----------------- PRINTING TREE -----------------\n" + tree.pretty())
+		#print("----------------- PRINTING CODE -----------------\n" + transoformer.xml)
 
 		return transoformer.xml
+
+def makeFooter(indention, type):
+	if type == 'event':
+		footer = "\t"*indention + f"<scriptId>{uuid.uuid4()}</scriptId>\n"
+	else:
+		footer = "\t"*indention + f"<brickId>{uuid.uuid4()}</brickId>\n"
+	footer += "\t"*indention +  "<commentedOut>false</commentedOut>\n"
+
+	return footer
