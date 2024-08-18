@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from . import console
+from . import bldExceptions
 from .interpreter import interpreter as ptbint
 
 def isvalid(path, exception=True):
@@ -13,7 +13,7 @@ def isvalid(path, exception=True):
 			return path
 		else:
 			if exception:
-				raise console.BuilderException("error", [path], "path.invalid")
+				raise bldExceptions.BuilderException("error", [path], "path.invalid")
 			else:
 				return None
 
