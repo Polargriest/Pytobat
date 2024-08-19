@@ -81,7 +81,7 @@ def buildMyGame(export=True):
 	ptc.build(ptc_project, ptc_destiny, export)
 
 # If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
-if True:
+if False:
 	name = "My project"        # Name of the Pocket Code game
 	orientation = 2            # (1: portrait | 2: landscape)
 	width = 720
