@@ -81,14 +81,14 @@ def buildMyGame(export=True):
 	ptc.build(ptc_project, ptc_destiny, export)
 
 # If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
-if True:
+if False:
 	name = "My project"        # Name of the Pocket Code game
 	orientation = 2            # (1: portrait | 2: landscape)
 	width = 720
 	height = 1437              # Pytobat automatically changes these to fit orientation
-	ptc_project = "../Game"    # Location of your project
+	ptc_project = "../Game"    # Location of your Pytobat project
 	ptc_destiny = f"../{name}" # Location of where you want the .catrobat
-	export = False              # Do you want it to export to .catrobat? False for testing
+	export = True              # Do you want it to export to .catrobat? False for testing
 
 	buildMyGame(export) # That's it. You're welcome.
 	exit()
