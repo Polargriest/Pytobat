@@ -30,7 +30,7 @@ class WriteXML(Visitor):
 		bricksPath = os.path.join(os.path.dirname(__file__), "bricks.json")
 		bricksPath = os.path.abspath(bricksPath)
 
-		with open(os.path.join(__file__, '../bricks.json'), 'r') as _bricksData:
+		with open(bricksPath, 'r') as _bricksData:
 			self.brickData = json.load(_bricksData)
 
 	def pop_context(self):

@@ -29,7 +29,7 @@
                 d8'                                                    
 
 * Run this Python file to convert your Pytobat Project to a Pocket Code game
-* Currently using Pytobat version 0.1-alpha2-hotfix1
+* Currently using Pytobat version 0.1a2h2
 """
 
 # Import the builder
@@ -81,7 +81,7 @@ def buildMyGame(export=True):
 	ptc.build(ptc_project, ptc_destiny, export)
 
 # If you hate the wizard like me, please, change this if statement to True, and just run this file as normal
-if False:
+if True:
 	name = "My project"        # Name of the Pocket Code game
 	orientation = 2            # (1: portrait | 2: landscape)
 	width = 720
