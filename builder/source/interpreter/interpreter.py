@@ -27,6 +27,9 @@ class WriteXML(Visitor):
 		self.path = path
 
 		# Open the Pytobat Bricks data
+		bricksPath = os.path.join(os.path.dirname(__file__), "bricks.json")
+		bricksPath = os.path.abspath(bricksPath)
+
 		with open(os.path.join(__file__, '../bricks.json'), 'r') as _bricksData:
 			self.brickData = json.load(_bricksData)
 
@@ -48,7 +51,7 @@ class WriteXML(Visitor):
 		self.pop_context()
 
 		# Start script in XML code
-		self.xml += f"\t\t\t\t\t\t<script type=\"{self.brickData["events"][eventName.value]}\" posX=\"0.0\" posY=\"0.0\">\n"
+		self.xml += f"\t\t\t\t\t\t<script type=\"{self.brickData['events'][eventName.value]}\" posX=\"0.0\" posY=\"0.0\">\n"
 
 		self.xml += "\t\t\t\t\t\t\t<brickList>\n"
 		self.buffer.append(
@@ -76,7 +79,7 @@ class WriteXML(Visitor):
 		
 		# Write brick on XML
 		self.xml += (
-			f"\t\t\t\t\t\t\t\t<brick type=\"{self.brickData["bricks"][brickName.value]["type"]}\">\n" + 
+			f"\t\t\t\t\t\t\t\t<brick type=\"{self.brickData['bricks'][brickName.value]['type']}\">\n" + 
 			 makeFooter(9, 'brick') +
 			 "\t\t\t\t\t\t\t\t</brick>\n"
 		)
@@ -95,7 +98,10 @@ class Interpreter:
 			self.script = _script.read()
 
 		# Open the grammar and create the parser
-		with open(os.path.join(__file__, '../pytobat.gram'), 'r') as _grammar:
+		grammarPath = os.path.join(os.path.dirname(__file__), 'pytobat.gram')
+		grammarPath = os.path.abspath(grammarPath)
+
+		with open(grammarPath, 'r') as _grammar:
 			self.parser = Lark(_grammar, parser='lalr', postlex=IndenterParser(), start='statements')
 
 	# This method is the interpreter manager
