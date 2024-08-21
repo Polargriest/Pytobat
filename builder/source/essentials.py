@@ -114,14 +114,18 @@ class Object:
 			code += "\t\t\t\t\t<soundList/>\n"
 
 		# Get the script -----------------------------------------------------------
-		if script:
-			# Script detected! Opening <scriptList>
-			code += "\t\t\t\t\t<scriptList>\n"
-			objCode = ptbint.Interpreter(script)
-			code += objCode.interprete()
-			code += "\t\t\t\t\t</scriptList>\n"
-		else:
+		if not script:
 			code += "\t\t\t\t\t<scriptList/>\n"
+		else:
+			# Script detected! Opening <scriptList>
+			with open(script) as _script:
+				if not _script.read().strip():
+					code += "\t\t\t\t\t<scriptList/>\n"
+				else:
+					code += "\t\t\t\t\t<scriptList>\n"
+					objCode = ptbint.Interpreter(script)
+					code += objCode.interprete()
+					code += "\t\t\t\t\t</scriptList>\n"
 
 		# Other variables that we don't support yet --------------------------------
 		code += (
